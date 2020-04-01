@@ -1,0 +1,42 @@
+{
+  "name": "waltz-core",
+  "version": "0.0.1",
+  "description": "Waltz-controls core plugin",
+  "main": "dist/index.js",
+  "source": "src/core.js",
+  "watch": {
+    "build": "{src,test}/*.js"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "package": "node ./maven-deploy.config.js",
+    "deploy": "curl -T $npm_package_main -H \"Authorization:Basic ${BINTRAY_AUTH_TOKEN}\" https://api.bintray.com/content/waltz-controls/libs/$npm_package_name/$npm_package_version/$npm_package_name/$npm_package_version/index.js",
+    "build": "mkdir -p dist && cp src/eventbus.js dist/index.js",
+    "watch": "npm-watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/waltz-controls/eventbus.git"
+  },
+  "keywords": [
+    "waltz",
+    "waltz-controls",
+    "core"
+  ],
+  "author": "Ingvord",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/waltz-controls/waltz-core/issues"
+  },
+  "homepage": "https://github.com/waltz-controls/waltz-core#readme",
+  "devDependencies": {
+    "acorn": "^7.1.0",
+    "maven-deploy": "^1.5.0",
+    "mocha": "^6.2.2",
+    "npm-watch": "^0.6.0"
+  },
+  "publishConfig": {
+    "registry": "https://api.bintray.com/npm/waltz-controls/npm"
+  },
+  "dependencies": {}
+}
