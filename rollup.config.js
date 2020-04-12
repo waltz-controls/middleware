@@ -7,7 +7,10 @@ export default [
     // browser-friendly UMD build
     {
         input: 'src/*.js',
-        external: ['webix', 'rxjs', '@waltz-controls/eventbus'],
+        external: ['webix', 'rxjs', 'rxjs/operators', '@waltz-controls/eventbus'],
+        globals: {
+            'webix': 'webix'
+        },
         output: {
             file: pkg.module,
             format: 'es',

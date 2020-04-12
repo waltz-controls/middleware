@@ -1,71 +1,53 @@
 import {Subject} from "rxjs";
+import {filter, map, tap} from "rxjs/operators";
 
-export class Context{
-    constructor(){
-        this.context = new Map();
+export class Controller {
+    dispatch(payload){
+        this.middleware.dispatch(this.id, kInprocChannel, () => payload);
     }
 
-    registerContext(key, context){
-        this.context.set(key, context);
-        return this;
+    /**
+     *
+     * @param {string} topic
+     * @param {string} channel
+     * @param {function(WaltzMessage):*} [mapper=function(WaltzMessage):WaltzMessage] mapper
+     */
+    listen(topic, channel, mapper = msg => msg){
+        return this.middleware.pipe(
+            filter(msg => msg.topic === topic && msg.channel === channel),
+            tap(msg => {
+                console.debug(`Controller ${this.id} has received a message`,msg)
+            }),
+            map(mapper),
+        );
     }
 
-    get(key){
-        return this.context.get(key);
-    }
-}
+    config(){
 
-export class Engine {
-    render(layout){
-
-    }
-}
-
-export class ApplicationUI{
-    constructor(layout, engine){
-        this.layout = layout;
-        this.engine = engine;
-    }
-
-    build(){
-        return this.layout;
-    }
-
-    render(){
-        const ui = this.build();
-        this.engine.render(ui);
     }
 }
 
 /**
- * @class [Controller]
+ * @class [WaltzWidget]
  */
-export class Controller {
-    constructor(middleware) {
-        this.middleware = middleware;
-    }
-
+export class WaltzWidget extends Controller {
+    /**
+     *
+     */
+    render(){}
 
     /**
      *
-     * @param {Application} app
      */
-    render(app){}
-
-    /**
-     *
-     * @param {Application} app
-     */
-    run(app){}
+    run(){}
 }
 
 export class Application {
-    constructor({name, version, ui}) {
+    constructor({name, version}) {
         this.name = name;
         this.version = version;
-        this.context = new Context();
+        this.context = new Map();
         this.middleware = new WaltzMiddleware();
-        this.ui = ui;
     }
 
     registerErrorHandler(handler){
@@ -74,57 +56,67 @@ export class Application {
     }
 
     registerContext(id, context){
-        this.context.registerContext(id, context);
+        this.context.set(id, context);
         return this;
+    }
+
+    getContext(id){
+        return this.context.get(id);
     }
 
     /**
      *
      * @param {string} id
-     * @param {function(WaltzMiddleware):Controller} factory
+     * @param {typeof WaltzWidget} widget
      * @returns {Application}
      */
-    registerController(id, factory){
-        this.middleware.registerController(id, factory);
+    registerWidget(id, widget){
+        Object.assign(this.middleware.registerController(id, widget), {
+            app: this
+        });
+
         return this;
     }
 
+    getWidget(id){
+        return this.middleware._controllers.get(id);
+    }
 
-    _safeRender(renderable){
-        try {
-            renderable.render(this);
-        } catch (e) {
-            console.error("Failed to render controller!", e);
+    _safe(what){
+        return function(unsafe){
+            try{
+                unsafe[what]();
+            } catch (e) {
+                console.error("Failed to render controller!", e);
+            }
         }
     }
 
-    _safeRun(runnable){
-        try {
-            runnable.run(this);
-        } catch (e) {
-            console.error("Failed to run controller!", e);
-        }
+    config(){
+        this.middleware._controllers.forEach(this._safe('config'));
+        return this;
     }
 
     render(){
-        this.middleware._controllers.forEach(this._safeRender.bind(this));
-        this.ui.render();
+        this.middleware._controllers.forEach(this._safe('render'));
         return this;
     }
 
     run(){
-        this.middleware._controllers.forEach(this._safeRun.bind(this));
+        this.middleware._controllers.forEach(this._safe('run'));
         return this;
     }
 }
 
 export class WaltzMessage{
-    constructor({source, channel, payload} = {payload: null}){
-        this.source = source;
+    constructor({topic, channel, payload} = {payload: null}){
+        this.topic = topic;
         this.channel = channel;
         this.payload = payload;
     }
 }
+
+export const kInprocChannel = 'inproc';
 
 export class WaltzMiddleware extends Subject{
     constructor(){
@@ -135,19 +127,20 @@ export class WaltzMiddleware extends Subject{
     /**
      *
      * @param id
-     * @param {function(WaltzMiddleware):Controller} factory
+     * @param {typeof Controller} controller
      */
-    registerController(id, factory){
-        this._controllers.set(id, factory(this))
+    registerController(id, controller){
+        this._controllers.set(id, Object.assign(controller, {id, middleware: this}));
+        return controller;
     }
 
     /**
      *
      * @param {string} topic
      * @param {string} channel
-     * @param {function(WaltzMiddleware):Action} factory
+     * @param {function(WaltzMiddleware):Action} payloadFactory
      */
-    dispatch(topic,channel,factory){
-        this.next(new WaltzMessage({topic,channel,payload:factory(this)}));
+    dispatch(topic,channel,payloadFactory){
+        this.next(new WaltzMessage({topic,channel,payload:payloadFactory(this)}));
     }
 }
