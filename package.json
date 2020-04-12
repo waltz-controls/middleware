@@ -31,9 +31,6 @@
     "@rollup/plugin-node-resolve": "^7.1.2",
     "rollup": "^2.6.0"
   },
-  "publishConfig": {
-    "registry": "https://api.bintray.com/npm/waltz-controls/npm"
-  },
   "dependencies": {
     "rxjs": "^6.5.5"
   }
