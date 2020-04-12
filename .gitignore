@@ -1,4 +1,5 @@
 dist
+test/test.js
 
 # Logs
 logs

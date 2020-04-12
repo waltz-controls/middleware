@@ -1,3 +1,9 @@
-import {EventBus} from "../src/core.js";
+import {Application} from "../src/core";
+import {DefaultWebixWaltzUI} from "../src/webix";
 
-//TODO
+
+new Application({name:'waltz', version:'1.0.0', ui: new DefaultWebixWaltzUI()})
+    .registerContext('tango-rest', "some context")
+    .render()
+    .run();
+
