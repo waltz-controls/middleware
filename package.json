@@ -1,5 +1,5 @@
 {
-  "name": "@waltz-controls/core",
+  "name": "@waltz-controls/middleware",
   "version": "1.0.2",
   "description": "Waltz-controls core plugin",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/waltz-controls/core.git"
+    "url": "git+https://github.com/waltz-controls/middleware.git"
   },
   "keywords": [
     "waltz",
@@ -22,9 +22,9 @@
   "author": "Ingvord",
   "license": "Apache 2.0",
   "bugs": {
-    "url": "https://github.com/waltz-controls/core/issues"
+    "url": "https://github.com/waltz-controls/middleware/issues"
   },
-  "homepage": "https://github.com/waltz-controls/core#readme",
+  "homepage": "https://github.com/waltz-controls/middleware#readme",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.1.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
