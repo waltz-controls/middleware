@@ -1,6 +1,6 @@
 {
   "name": "@waltz-controls/core",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Waltz-controls core plugin",
   "main": "dist/index.js",
   "source": "src/core.js",
