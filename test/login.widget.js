@@ -1,13 +1,13 @@
-import {WaltzWidget, kInprocChannel} from "../src/core";
+import {kInprocChannel, WaltzWidget} from "../src/core";
 
 export class Login extends WaltzWidget {
-    config() {
-        this.listen('login', kInprocChannel).subscribe(msg => {
-            $$('login').destructor();
-        })
+    constructor() {
+        super('login');
+
     }
 
-    render(){
+
+    config() {
         const self = this;
         return {
             rows: [
@@ -45,7 +45,10 @@ export class Login extends WaltzWidget {
                                                 click(){
                                                     var form = this.getFormView();
                                                     var isValid = form.validate();
-                                                    if (!isValid) return;
+                                                    if (!isValid) {
+                                                        self.dispatchError("Invalid login!!!");
+                                                        return;
+                                                    }
 
                                                     self.dispatch({
                                                         user: form.getValues().username,
@@ -73,13 +76,29 @@ export class Login extends WaltzWidget {
         };
     }
 
-
-    run() {
-        webix.ui({
+    render(){
+        return webix.ui({
             id:'login',
             view:'window',
             fullscreen:true,
-            body:this.render()
-        }).show();
+            body:this.config()
+        })
+    }
+
+
+    run() {
+        this.listen('login', kInprocChannel).subscribe({
+            next: () => $$('login').destructor(),
+            error: err => console.error(err)
+        });
+
+        this.listen(
+            'numbers', 'numbers'
+        ).subscribe(
+            payload => console.log(`payload: ${payload}`),
+            error => console.error(error)
+        );
+
+        this.render().show();
     }
 }
