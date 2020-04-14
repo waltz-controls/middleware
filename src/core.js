@@ -1,5 +1,6 @@
-import {Observable, of, Subject, throwError} from "rxjs";
-import {filter, share, switchMap, tap} from "rxjs/operators";
+import {Observable, of, throwError} from "rxjs";
+import {share} from "rxjs/operators";
+import {EventBus} from "@waltz-controls/eventbus";
 
 export const kExternalChannel = 'channel:external';
 export const kInprocChannel = 'channel:inproc';
@@ -18,30 +19,42 @@ export class Controller extends Observable {
      * Dispatches given payload under its name via 'channel:inproc'
      *
      * @param payload
+     * @param {string} [topic=this.name] topic
+     * @param {string} [channel=kInprocChannel] channel
      */
-    dispatch(payload){
-        this.middleware.dispatch(this.name, kInprocChannel, payload);
+    dispatch(payload, topic = this.name, channel = kInprocChannel){
+        this.middleware.dispatch(topic, channel, payload);
     }
 
-    dispatchError(err){
-        this.middleware.dispatchError(this.name, kInprocChannel, err);
+    /**
+     *
+     * @param {typeof Error|*} err
+     * @param {string} [topic=this.name] topic
+     * @param {string} [channel=kInprocChannel] channel
+     */
+    dispatchError(err, topic = this.name, channel = kInprocChannel){
+        this.middleware.dispatchError(topic, channel, err);
+    }
+
+    /**
+     *
+     * @param {typeof Observable} observable
+     * @param {string} [topic=this.name] topic
+     * @param {string} [channel=kInprocChannel] channel
+     */
+    dispatchObservable(observable, topic = this.name, channel = kInprocChannel){
+        this.middleware.dispatchObservable(topic, channel, observable);
     }
 
     /**
      *
      * @param {string} topic
      * @param {string} channel
-     * @param {function(WaltzMessage):*} [mapper=function(WaltzMessage):WaltzMessage] mapper
+     * @param {{next,error}} subscriber
      * @return {Observable}
      */
-    listen(topic, channel, mapper = msg => msg.payload){
-        return this.middleware.pipe(
-            filter(msg => (msg.topic === topic) && msg.channel === channel),
-            tap(msg => {
-                console.debug(`Controller ${this.name} has received a message`,msg)
-            }),
-            switchMap(mapper)
-        );
+    listen(topic, channel, subscriber){
+        this.middleware.subscribe(topic,channel, subscriber)
     }
 
     /**
@@ -119,7 +132,7 @@ export class Application {
      * @returns {Application}
      */
     registerObservable(id, observable, topic, channel = kExternalChannel){
-        this.subscriptions.set(id, observable.pipe(share()).subscribe({
+        this.subscriptions.set(id, observable.subscribe({
             next: payload => this.middleware.dispatch(topic, channel, payload),
             error: err => this.middleware.dispatchError(topic, channel, err),
             complete: () => this.unregisterObservable(id)
@@ -201,10 +214,10 @@ export class WaltzMessage{
 
 
 
-export class WaltzMiddleware extends Subject{
+export class WaltzMiddleware {
     constructor(){
-        super();
         this._controllers = new Map();
+        this.bus = new EventBus()
     }
 
     /**
@@ -216,6 +229,11 @@ export class WaltzMiddleware extends Subject{
         return controller;
     }
 
+    subscribe(topic, channel, subscriber){
+        const cb = observable => observable.subscribe(subscriber);
+        this.bus.subscribe(topic,cb,channel);
+    }
+
     /**
      *
      * @param {string} topic
@@ -223,7 +241,7 @@ export class WaltzMiddleware extends Subject{
      * @param {*} payload
      */
     dispatch(topic,channel,payload){
-        this.next(new WaltzMessage({topic,channel,payload:of(payload)}));
+        this.bus.publish(topic, of(payload).pipe(share()), channel);
     }
 
     /**
@@ -232,7 +250,17 @@ export class WaltzMiddleware extends Subject{
      * @param {string} channel
      * @param {typeof Error} err
      */
-    dispatchError(topic, channel,err){
-        this.next(new WaltzMessage({topic,channel,payload:throwError(err)}));
+    dispatchError(topic, channel, err){
+        this.bus.publish(topic, throwError(err), channel);
+    }
+
+    /**
+     *
+     * @param {string} topic
+     * @param {string} channel
+     * @param {typeof Observable} observable
+     */
+    dispatchObservable(topic,channel,observable){
+        this.bus.publish(topic, observable.pipe(share()), channel);
     }
 }

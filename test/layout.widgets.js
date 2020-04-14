@@ -8,7 +8,7 @@ const top = webix.protoUI({
             rows:[
                 {template:'top - protoUI', on:{
                         onBeforeRender(ev){
-                            alert(config.root.app.getContext('tango-rest'));
+                            webix.alert(config.root.app.getContext('tango-rest'));
                         }
                     }}
             ]
@@ -55,22 +55,19 @@ export class MainWindow extends WaltzWidget {
 
     run(){
         this.listen(
-            'login', kInprocChannel
-        ).subscribe(
-            {next:msg => {
+            'login', kInprocChannel,{next:msg => {
                 this.render();
 
                 webix.alert({text:`${msg.user}:${msg.passwd}`});
 
                 webix.alert({text:`${this.app.getContext('tango-rest')}`});
-            },error: () => {}});
+            }});
 
         this.listen(
-            'numbers', 'numbers'
-        ).subscribe(
-            payload => {
+            'numbers', 'numbers',{
+            next:payload => {
                 console.log(payload)
-            });
+            }});
 
     }
 }

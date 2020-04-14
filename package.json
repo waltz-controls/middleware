@@ -32,6 +32,7 @@
     "rollup": "^2.6.0"
   },
   "dependencies": {
+    "@waltz-controls/eventbus": "^1.2.1",
     "rxjs": "^6.5.5"
   }
 }

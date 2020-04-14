@@ -1,4 +1,6 @@
 import {kInprocChannel, WaltzWidget} from "../src/core";
+import {of} from "rxjs";
+import {skip} from "rxjs/operators";
 
 export class Login extends WaltzWidget {
     constructor() {
@@ -53,7 +55,9 @@ export class Login extends WaltzWidget {
                                                     self.dispatch({
                                                         user: form.getValues().username,
                                                         passwd: form.getValues().password
-                                                    })
+                                                    });
+
+                                                    self.dispatchObservable(of(1,2,3,4,5).pipe(skip(2)), 'obs');
                                                 }
                                             },
                                             {
@@ -87,16 +91,19 @@ export class Login extends WaltzWidget {
 
 
     run() {
-        this.listen('login', kInprocChannel).subscribe({
+        this.listen('login', kInprocChannel,{
             next: () => $$('login').destructor(),
             error: err => console.error(err)
         });
 
+        this.listen('obs', kInprocChannel,{
+            next: payload => console.log(payload)
+        });
+
         this.listen(
-            'numbers', 'numbers'
-        ).subscribe(
-            payload => console.log(`payload: ${payload}`),
-            error => console.error(error)
+            'numbers', 'numbers',{
+            next:payload => console.log(`payload: ${payload}`),
+            error:error => console.error(error)}
         );
 
         this.render().show();
