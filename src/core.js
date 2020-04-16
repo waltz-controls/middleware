@@ -1,5 +1,5 @@
 import {Observable, of, throwError} from "rxjs";
-import {share} from "rxjs/operators";
+import {dematerialize, materialize, share} from "rxjs/operators";
 import {EventBus} from "@waltz-controls/eventbus";
 
 export const kExternalChannel = 'channel:external';
@@ -51,10 +51,10 @@ export class Controller extends Observable {
      * @param {string} topic
      * @param {string} channel
      * @param {{next,error}} subscriber
-     * @return {Observable}
+     * @return {Subscription}
      */
     listen(topic, channel, subscriber){
-        this.middleware.subscribe(topic,channel, subscriber)
+        return this.middleware.subscribe(topic,channel, subscriber)
     }
 
     /**
@@ -126,13 +126,14 @@ export class Application {
     /**
      *
      * @param {string} id
-     * @param {typeof Observable} observable
+     * @param {function(Application):Observable|Observable} observableFactory
      * @param {string} topic
      * @param {string} [channel='channel:external'] channel
      * @returns {Application}
      */
-    registerObservable(id, observable, topic, channel = kExternalChannel){
-        this.subscriptions.set(id, observable.subscribe({
+    registerObservable(id, observableFactory, topic, channel = kExternalChannel){
+        if(this.subscriptions.has(id)) return this;
+        this.subscriptions.set(id, (typeof observableFactory === 'function' ? observableFactory(this) : observableFactory).subscribe({
             next: payload => this.middleware.dispatch(topic, channel, payload),
             error: err => this.middleware.dispatchError(topic, channel, err),
             complete: () => this.unregisterObservable(id)
@@ -230,7 +231,9 @@ export class WaltzMiddleware {
     }
 
     subscribe(topic, channel, subscriber){
-        const cb = observable => observable.subscribe(subscriber);
+        const cb = observable => observable.pipe(
+            dematerialize()
+        ).subscribe(subscriber);
         this.bus.subscribe(topic,cb,channel);
     }
 
@@ -241,7 +244,7 @@ export class WaltzMiddleware {
      * @param {*} payload
      */
     dispatch(topic,channel,payload){
-        this.bus.publish(topic, of(payload).pipe(share()), channel);
+        this.bus.publish(topic, of(payload).pipe(materialize(), share()), channel);
     }
 
     /**
@@ -251,7 +254,7 @@ export class WaltzMiddleware {
      * @param {typeof Error} err
      */
     dispatchError(topic, channel, err){
-        this.bus.publish(topic, throwError(err), channel);
+        this.bus.publish(topic, throwError(err).pipe(materialize()), channel);
     }
 
     /**
@@ -261,6 +264,6 @@ export class WaltzMiddleware {
      * @param {typeof Observable} observable
      */
     dispatchObservable(topic,channel,observable){
-        this.bus.publish(topic, observable.pipe(share()), channel);
+        this.bus.publish(topic, observable.pipe(materialize(), share()), channel);
     }
 }
