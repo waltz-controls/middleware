@@ -1,6 +1,7 @@
-import {Observable, of, throwError} from "rxjs";
-import {dematerialize, materialize, share} from "rxjs/operators";
+import {fromEvent, Observable, of, throwError} from "rxjs";
+import {map, share} from "rxjs/operators";
 import {EventBus} from "@waltz-controls/eventbus";
+import Deferred from "./deferred";
 
 export const kExternalChannel = 'channel:external';
 export const kInprocChannel = 'channel:inproc';
@@ -9,9 +10,8 @@ export const kMulticastChannel = 'channel:multicast';
 /**
  * @class [Controller]
  */
-export class Controller extends Observable {
+export class Controller {
     constructor(name){
-        super();
         this.name = name;
     }
 
@@ -95,44 +95,64 @@ export class Application {
 
     /**
      *
-     * @param {function(event):void} handler
+     * @param {function(Error):void} handler
      * @returns {Application}
      */
     registerErrorHandler(handler){
-        window.addEventListener("error", handler);
+        fromEvent(window,"error").pipe(
+            map(ev => ev.error)
+        ).subscribe(handler);
         return this;
     }
 
     /**
+     * Wraps the context with a promise
      *
      * @param {string} id
-     * @param {*} context
+     * @param {*|PromiseLike<*>} context
      * @returns {Application}
      */
     registerContext(id, context){
-        this.context.set(id, context);
+        if(this.context.has(id)){
+            this.context.get(id).resolve(context);
+        } else {
+            const deferred = new Deferred()
+            this.context.set(id, deferred);
+            deferred.resolve(context);
+        }
         return this;
     }
 
     /**
+     * Returns a promise of the context requested.
+     *
+     * The promise is either has been already resolved with a context value or will wait till
+     * {@link Application#registerContext} is called.
      *
      * @param id
-     * @returns {*|null}
+     * @returns {Promise<*>}
      */
     getContext(id){
-        return this.context.get(id);
+        const deferred = this.context.get(id) || new Deferred();
+        this.context.set(id, deferred);
+        return deferred;
     }
 
     /**
+     * Subscribes to the observable provided so that every next/error is dispatched via the middleware using specified topic and channel.
      *
-     * @param {string} id
+     * Unsubscribes on completion.
+     *
+     * If consumers need to tweak the observable use {@link Application#registerContext} instead.
+     *
+     * @param {string|number|Symbol} id
      * @param {function(Application):Observable|Observable} observableFactory
-     * @param {string} topic
+     * @param {string} [topic=id] topic
      * @param {string} [channel='channel:external'] channel
      * @returns {Application}
      */
-    registerObservable(id, observableFactory, topic, channel = kExternalChannel){
-        if(this.subscriptions.has(id)) return this;
+    registerObservable(id, observableFactory, topic= id, channel = kExternalChannel){
+        if(this.subscriptions.has(id)) throw new Error(`Observable ${id} is already registered!`);
         this.subscriptions.set(id, (typeof observableFactory === 'function' ? observableFactory(this) : observableFactory).subscribe({
             next: payload => this.middleware.dispatch(topic, channel, payload),
             error: err => this.middleware.dispatchError(topic, channel, err),
@@ -141,6 +161,11 @@ export class Application {
         return this;
     }
 
+    /**
+     * Unsubscribes from the observable
+     *
+     * @param {string|number|Symbol} id
+     */
     unregisterObservable(id){
         if(this.subscriptions.has(id)){
             this.subscriptions.get(id).unsubscribe();
@@ -157,7 +182,6 @@ export class Application {
      */
     registerController(controller){
         this.middleware.registerController(controller);
-        this.registerObservable(controller.name, controller, controller.name, kInprocChannel);
         return this;
     }
 
@@ -231,9 +255,7 @@ export class WaltzMiddleware {
     }
 
     subscribe(topic, channel, subscriber){
-        const cb = observable => observable.pipe(
-            dematerialize()
-        ).subscribe(subscriber);
+        const cb = observable => observable.subscribe(subscriber);
         this.bus.subscribe(topic,cb,channel);
     }
 
@@ -244,7 +266,7 @@ export class WaltzMiddleware {
      * @param {*} payload
      */
     dispatch(topic,channel,payload){
-        this.bus.publish(topic, of(payload).pipe(materialize(), share()), channel);
+        this.bus.publish(topic, of(payload).pipe(share()), channel);
     }
 
     /**
@@ -254,7 +276,7 @@ export class WaltzMiddleware {
      * @param {typeof Error} err
      */
     dispatchError(topic, channel, err){
-        this.bus.publish(topic, throwError(err).pipe(materialize()), channel);
+        this.bus.publish(topic, throwError(err), channel);
     }
 
     /**
@@ -264,6 +286,6 @@ export class WaltzMiddleware {
      * @param {typeof Observable} observable
      */
     dispatchObservable(topic,channel,observable){
-        this.bus.publish(topic, observable.pipe(materialize(), share()), channel);
+        this.bus.publish(topic, observable.pipe(share()), channel);
     }
 }
