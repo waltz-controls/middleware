@@ -2,4 +2,5 @@ index.html
 .idea
 test
 src
+docs
 *.config.js
