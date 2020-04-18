@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/waltz-controls/middleware.svg?branch=master)](https://travis-ci.org/waltz-controls/middleware)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/waltz-controls/middleware)
+[![time tracker](https://wakatime.com/badge/github/waltz-controls/middleware.svg)](https://wakatime.com/badge/github/waltz-controls/middleware)
 
 [![Docs](https://img.shields.io/badge/Docs-Generated-green.svg)](https://waltz-controls.github.io/middleware/)
 
