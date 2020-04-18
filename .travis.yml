@@ -1,0 +1,11 @@
+dist: xenial
+language: node_js
+node_js:
+  - 10
+sudo: false
+
+before_install:
+  - printf "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
+
+script:
+  - npm run build
