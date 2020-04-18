@@ -1,3 +1,8 @@
+/**
+ * Promise that can be resolved externally
+ *
+ * @class [Deferred]
+ */
 export default class Deferred {
     constructor() {
         this.promise = new Promise((resolve, reject) => {

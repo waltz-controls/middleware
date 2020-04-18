@@ -84,6 +84,16 @@ export class WaltzWidget extends Controller {
     render(){}
 }
 
+/**
+ * Main entry point for any Waltz based SP-Applications
+ *
+ * @example
+ * new Application({name: 'waltz', versions: 'x.y.z'})
+ * .registerWidget(new Widget())
+ * .run()
+ *
+ * @class [Application]
+ */
 export class Application {
     constructor({name, version}) {
         this.name = name;
@@ -223,7 +233,10 @@ export class Application {
     }
 }
 
-export class WaltzMessage{
+/**
+ * @class [WaltzMessage]
+ */
+class WaltzMessage{
     /**
      *
      * @param topic
@@ -238,8 +251,10 @@ export class WaltzMessage{
 }
 
 
-
-export class WaltzMiddleware {
+/**
+ * @class [WaltzMiddleware]
+ */
+class WaltzMiddleware {
     constructor(){
         this._controllers = new Map();
         this.bus = new EventBus()
