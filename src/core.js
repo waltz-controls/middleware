@@ -1,4 +1,4 @@
-import {fromEvent, Observable, of, throwError} from "rxjs";
+import {fromEvent, of, throwError} from "rxjs";
 import {map, share} from "rxjs/operators";
 import {EventBus} from "@waltz-controls/eventbus";
 import Deferred from "./deferred";
@@ -53,16 +53,21 @@ export class Controller {
      * @param {{next,error}} subscriber
      * @return {Subscription}
      */
-    listen(topic, channel, subscriber){
+    listen(topic=this.name, channel=kInprocChannel, subscriber){
         return this.middleware.subscribe(topic,channel, subscriber)
     }
 
     /**
+     * Configure this controller
+     *
+     * This method is called by the middleware just after registration
+     */
+    config(){}
+
+    /**
      * Called from {@link Application#run}
      */
-    run(){
-
-    }
+    run(){}
 }
 
 /**
@@ -72,11 +77,6 @@ export class WaltzWidget extends Controller {
     constructor(name){
         super(name);
     }
-
-    /**
-     * Configure this widget
-     */
-    config(){}
 
     /**
      * Render this widget
@@ -263,9 +263,11 @@ class WaltzMiddleware {
     /**
      *
      * @param {typeof Controller} controller
+     * @return {typeof Controller}
      */
     registerController(controller){
         this._controllers.set(controller.name, Object.assign(controller, {middleware: this}));
+        controller.config();
         return controller;
     }
 

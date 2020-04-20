@@ -28,11 +28,11 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.1.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
-    "@rollup/plugin-node-resolve": "^7.1.2",
-    "rollup": "^2.6.0"
+    "@rollup/plugin-node-resolve": "^7.1.3",
+    "rollup": "^2.6.1"
   },
   "dependencies": {
-    "@waltz-controls/eventbus": "^1.2.1",
+    "@waltz-controls/eventbus": "^1.2.3",
     "rxjs": "^6.5.5"
   }
 }
