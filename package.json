@@ -1,6 +1,6 @@
 {
   "name": "@waltz-controls/middleware",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Waltz-controls middleware plugin",
   "main": "dist/index.js",
   "source": "src/core.js",

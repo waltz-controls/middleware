@@ -1,4 +1,4 @@
-import {kInprocChannel, WaltzWidget} from "../src/core";
+import {WaltzWidget} from "../src/core";
 
 const top = webix.protoUI({
     name: 'top',
@@ -54,20 +54,20 @@ export class MainWindow extends WaltzWidget {
     }
 
     run(){
-        this.listen(
-            'login', kInprocChannel,{next:async msg => {
+        this.listen({next:async msg => {
                 this.render();
 
                 webix.alert({text:`${msg.user}:${msg.passwd}`});
 
                 webix.alert({text:`${await this.app.getContext('tango-rest')}`});
-            }});
+            }},
+            'login');
 
-        this.listen(
-            'numbers', 'numbers',{
+        this.listen({
             next:payload => {
                 console.log(payload)
-            }});
+            }},
+            'numbers', 'numbers');
 
     }
 }

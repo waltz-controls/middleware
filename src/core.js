@@ -50,10 +50,10 @@ export class Controller {
      *
      * @param {string} topic
      * @param {string} channel
-     * @param {{next,error}} subscriber
+     * @param {{next,error}|function(*):void} subscriber
      * @return {Subscription}
      */
-    listen(topic=this.name, channel=kInprocChannel, subscriber){
+    listen(subscriber, topic=this.name, channel=kInprocChannel, ){
         return this.middleware.subscribe(topic,channel, subscriber)
     }
 

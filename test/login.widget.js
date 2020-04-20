@@ -1,4 +1,4 @@
-import {kInprocChannel, WaltzWidget} from "../src/core";
+import {WaltzWidget} from "../src/core";
 import {of} from "rxjs";
 import {skip} from "rxjs/operators";
 
@@ -10,6 +10,23 @@ export class Login extends WaltzWidget {
 
 
     config() {
+        this.listen({
+            next: () => $$('login').destructor(),
+            error: err => console.error(err)
+        });
+
+        this.listen({
+            next: payload => console.log(payload)
+        },'obs');
+
+        this.listen({
+            next:payload => console.log(`payload: ${payload}`),
+            error:error => console.error(error)},
+        'numbers', 'numbers');
+
+    }
+
+    ui(){
         const self = this;
         return {
             rows: [
@@ -78,6 +95,7 @@ export class Login extends WaltzWidget {
                 }
             ]
         };
+
     }
 
     render(){
@@ -85,27 +103,12 @@ export class Login extends WaltzWidget {
             id:'login',
             view:'window',
             fullscreen:true,
-            body:this.config()
+            body:this.ui()
         })
     }
 
 
     run() {
-        this.listen('login', kInprocChannel,{
-            next: () => $$('login').destructor(),
-            error: err => console.error(err)
-        });
-
-        this.listen('obs', kInprocChannel,{
-            next: payload => console.log(payload)
-        });
-
-        this.listen(
-            'numbers', 'numbers',{
-            next:payload => console.log(`payload: ${payload}`),
-            error:error => console.error(error)}
-        );
-
         this.render().show();
     }
 }
