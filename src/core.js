@@ -149,6 +149,25 @@ export class Application {
     }
 
     /**
+     * Deletes context associated with id. Rejects corresponding promise.
+     *
+     * @param {string} id
+     */
+    unregisterContext(id){
+        const deferred = this.context.get(id) || new Deferred();
+        deferred.reject(`Context ${id} has been unregistered`);
+        this.context.delete(id);
+    }
+
+    /**
+     * Reset context for this application
+     */
+    clearContext(){
+        this.context = null;
+        this.context = new Map();
+    }
+
+    /**
      * Subscribes to the observable provided so that every next/error is dispatched via the middleware using specified topic and channel.
      *
      * Unsubscribes on completion.
