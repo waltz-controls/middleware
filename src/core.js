@@ -210,7 +210,7 @@ export class Application {
      * @returns {Application}
      */
     registerController(controller){
-        this.middleware.registerController(controller);
+        this.middleware.registerController(Object.assign(controller, {app:this}));
         return this;
     }
 
@@ -220,9 +220,7 @@ export class Application {
      * @returns {Application}
      */
     registerWidget(widget){
-        this.registerController(Object.assign(widget, {
-            app: this
-        }));
+        this.registerController(widget);
 
         return this;
     }
