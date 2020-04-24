@@ -216,6 +216,15 @@ export class Application {
 
     /**
      *
+     * @param name
+     * @return {Controller}
+     */
+    getController(name){
+        return this.middleware.controllers.get(name);
+    }
+
+    /**
+     *
      * @param {typeof WaltzWidget} widget
      * @returns {Application}
      */
@@ -225,8 +234,13 @@ export class Application {
         return this;
     }
 
+    /**
+     *
+     * @param id
+     * @return {WaltzWidget}
+     */
     getWidget(id){
-        return this.middleware._controllers.get(id);
+        return this.middleware.controllers.get(id);
     }
 
     _safe(what){
@@ -245,7 +259,7 @@ export class Application {
      * @returns {Application}
      */
     run(){
-        this.middleware._controllers.forEach(this._safe('run'));
+        this.middleware.controllers.forEach(this._safe('run'));
         return this;
     }
 }
@@ -273,7 +287,7 @@ class WaltzMessage{
  */
 class WaltzMiddleware {
     constructor(){
-        this._controllers = new Map();
+        this.controllers = new Map();
         this.bus = new EventBus()
     }
 
@@ -283,7 +297,7 @@ class WaltzMiddleware {
      * @return {typeof Controller}
      */
     registerController(controller){
-        this._controllers.set(controller.name, Object.assign(controller, {middleware: this}));
+        this.controllers.set(controller.name, Object.assign(controller, {middleware: this}));
         controller.config();
         return controller;
     }
