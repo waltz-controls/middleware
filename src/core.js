@@ -11,8 +11,15 @@ export const kMulticastChannel = 'channel:multicast';
  * @class [Controller]
  */
 export class Controller {
-    constructor(name){
+    /**
+     *
+     * @param {string} name
+     * @param {Application} app - may be null if this controller is registered via Application
+     */
+    constructor(name, app = null){
         this.name = name;
+        this.app = app;
+        this.middleware = app ? app.middleware : null;
     }
 
     /**
@@ -74,8 +81,13 @@ export class Controller {
  * @class [WaltzWidget]
  */
 export class WaltzWidget extends Controller {
-    constructor(name){
-        super(name);
+    /**
+     *
+     * @param {string} name
+     * @param {Application} app - may be null if this widget is registered via Application
+     */
+    constructor(name, app = null){
+        super(name, app);
     }
 
     /**
@@ -204,6 +216,11 @@ export class Application {
         }
     }
 
+    clearSubscriptions(){
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
+        this.subscriptions = new Map();
+    }
+
     /**
      *
      * @param {typeof Controller} controller
@@ -292,11 +309,13 @@ class WaltzMiddleware {
     }
 
     /**
+     * Does nothing if controller has been already registered previously i.e. {@link WaltzMiddleware#controllers}.has(controller.name) === true
      *
      * @param {typeof Controller} controller
      * @return {typeof Controller}
      */
     registerController(controller){
+        if(this.controllers.has(controller.name)) return controller;
         this.controllers.set(controller.name, Object.assign(controller, {middleware: this}));
         controller.config();
         return controller;
