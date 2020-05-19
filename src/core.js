@@ -65,13 +65,6 @@ export class Controller {
     }
 
     /**
-     * Configure this controller
-     *
-     * This method is called by the middleware just after registration
-     */
-    config(){}
-
-    /**
      * Called from {@link Application#run}
      */
     run(){}

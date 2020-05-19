@@ -32,9 +32,7 @@ export class MainWindow extends WaltzWidget {
     constructor(app){
         super('main', app);
         this.top = new TopWidget(this);
-    }
 
-    config(){
         return Object.assign(this,{view:'top'})
     }
 

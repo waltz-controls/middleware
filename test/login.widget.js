@@ -6,10 +6,6 @@ export class Login extends WaltzWidget {
     constructor(app) {
         super('login', app);
 
-    }
-
-
-    config() {
         this.listen({
             next: () => $$('login').destructor(),
             error: err => console.error(err)
@@ -20,10 +16,9 @@ export class Login extends WaltzWidget {
         },'obs');
 
         this.listen({
-            next:payload => console.log(`payload: ${payload}`),
-            error:error => console.error(error)},
-        'numbers', 'numbers');
-
+                next:payload => console.log(`payload: ${payload}`),
+                error:error => console.error(error)},
+            'numbers', 'numbers');
     }
 
     ui(){
