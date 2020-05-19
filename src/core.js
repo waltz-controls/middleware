@@ -230,11 +230,11 @@ export class Application {
 
     /**
      *
-     * @param {typeof Controller} controller
+     * @param {function(Application):typeof Controller} controllerFactory
      * @returns {Application}
      */
-    registerController(controller){
-        this.middleware.registerController(Object.assign(controller, {app:this}));
+    registerController(controllerFactory){
+        this.middleware.registerController(controllerFactory(this));
         return this;
     }
 
@@ -249,11 +249,11 @@ export class Application {
 
     /**
      *
-     * @param {typeof WaltzWidget} widget
+     * @param {function(Application):typeof WaltzWidget} widgetFactory
      * @returns {Application}
      */
-    registerWidget(widget){
-        this.registerController(widget);
+    registerWidget(widgetFactory){
+        this.middleware.registerController(widgetFactory(this));
 
         return this;
     }
@@ -323,8 +323,7 @@ class WaltzMiddleware {
      */
     registerController(controller){
         if(this.controllers.has(controller.name)) return controller;
-        this.controllers.set(controller.name, Object.assign(controller, {middleware: this}));
-        controller.config();
+        this.controllers.set(controller.name, controller);
         return controller;
     }
 

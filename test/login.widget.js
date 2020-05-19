@@ -3,8 +3,8 @@ import {of} from "rxjs";
 import {skip} from "rxjs/operators";
 
 export class Login extends WaltzWidget {
-    constructor() {
-        super('login');
+    constructor(app) {
+        super('login', app);
 
     }
 

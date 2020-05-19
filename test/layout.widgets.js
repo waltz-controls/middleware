@@ -29,8 +29,8 @@ class TopWidget extends WaltzWidget{
 }
 
 export class MainWindow extends WaltzWidget {
-    constructor(){
-        super('main');
+    constructor(app){
+        super('main', app);
         this.top = new TopWidget(this);
     }
 

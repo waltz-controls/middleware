@@ -11,8 +11,8 @@ const app = new Application({name:'waltz', version:'1.0.0'})
     .registerObservable(1234, () => interval(100).pipe(throttleTime(1000)),'numbers', "numbers")
     .registerObservable(1235, () => timer(3000).pipe(mergeMap(() => throwError("Kabo-o-o-om"))),'numbers', "numbers")
     // .registerObservable(1236, timer(1000).pipe(mergeMap(() => of([1,2,3,4]))),'numbers', "numbers")
-    .registerWidget(new Login())
-    .registerWidget(new MainWindow())
+    .registerWidget(app => new Login(app))
+    .registerWidget(app => new MainWindow(app))
     .run();
 
 setTimeout(()=>{
