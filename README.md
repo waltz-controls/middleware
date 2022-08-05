@@ -11,3 +11,9 @@
 ```
 npm install @waltz-controls/middleware --registry=https://npm.pkg.github.com/waltz-controls
 ```
+
+# Getting started
+
+Run `npm install && npm run build`
+
+Open `index.html` in  a browser via IntelliJ. IntelliJ will create an http server on-fly and point your browser of choose to it.
