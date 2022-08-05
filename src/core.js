@@ -1,4 +1,4 @@
-import {fromEvent, of, throwError} from "rxjs";
+eventbusimport {fromEvent, of, throwError} from "rxjs";
 import {map, share} from "rxjs/operators";
 import {EventBus} from "@waltz-controls/eventbus";
 import Deferred from "./deferred";
