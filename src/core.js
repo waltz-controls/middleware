@@ -87,13 +87,6 @@ export class WaltzWidget extends Controller {
      * Render this widget
      */
     render(){}
-
-    /**
-     * @return {*} this widget's UI
-     */
-    get view(){
-
-    }
 }
 
 /**
