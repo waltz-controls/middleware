@@ -99,12 +99,6 @@
                         #render
                       </a></li>
                       
-                      <li><a
-                        href='#waltzwidgetview'
-                        class='regular pre-open'>
-                        #view
-                      </a></li>
-                      
                     </ul>
                   
                   
@@ -293,10 +287,15 @@
     </h3>
     
     
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L15-L73'>
+      <span>src/core.js</span>
+      </a>
+    
   </div>
   
 
-  
+  <p>This class is responsbile mainly for dispatching events from Views/Models into an eventbus</p>
+
     <div class='pre p1 fill-light mt0'>new Controller(name: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, app: <a href="#application">Application</a>)</div>
   
   
@@ -359,6 +358,15 @@
       <div class="clearfix display-none toggle-target">
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L34-L36'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
   
 
   <p>Dispatches given payload under its name via 'channel:inproc'</p>
@@ -442,6 +450,15 @@
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L44-L46'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
+  
 
   
     <div class='pre p1 fill-light mt0'>dispatchError(err: any, topic: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, channel: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
@@ -522,6 +539,15 @@
       <div class="clearfix display-none toggle-target">
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L54-L56'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
   
 
   
@@ -604,6 +630,15 @@
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L65-L67'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
+  
 
   
     <div class='pre p1 fill-light mt0'>listen(subscriber: ({next, error} | function (any): void), topic: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, channel: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): Subscription</div>
@@ -657,7 +692,6 @@
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code>Subscription</code>:
         
-
       
     
   
@@ -690,6 +724,15 @@
       <div class="clearfix display-none toggle-target">
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L72-L72'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
   
 
   <p>Called from <a href="#applicationrun">Application#run</a></p>
@@ -750,6 +793,10 @@
       WaltzWidget
     </h3>
     
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L78-L92'>
+      <span>src/core.js</span>
+      </a>
     
   </div>
   
@@ -825,6 +872,15 @@
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L91-L91'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
+  
 
   <p>Render this widget</p>
 
@@ -843,62 +899,6 @@
 
   
 
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='waltzwidgetview'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>view</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  
-    <div class='pre p1 fill-light mt0'>view</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code>any</code>:
-        this widget's UI
-
-      
-    
   
 
   
@@ -940,6 +940,10 @@
       Application
     </h3>
     
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L104-L277'>
+      <span>src/core.js</span>
+      </a>
     
   </div>
   
@@ -1016,9 +1020,9 @@
     <div class='py1 quiet mt1 prose-big'>Example</div>
     
       
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">new</span> Application({<span class="hljs-attr">name</span>: <span class="hljs-string">'waltz'</span>, <span class="hljs-attr">versions</span>: <span class="hljs-string">'x.y.z'</span>})
-.registerWidget(<span class="hljs-keyword">new</span> Widget())
-.run()</pre>
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">new</span> <span class="hljs-title class_">Application</span>({<span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;waltz&#x27;</span>, <span class="hljs-attr">versions</span>: <span class="hljs-string">&#x27;x.y.z&#x27;</span>})
+.<span class="hljs-title function_">registerWidget</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Widget</span>())
+.<span class="hljs-title function_">run</span>()</pre>
     
   
 
@@ -1038,6 +1042,15 @@
       <div class="clearfix display-none toggle-target">
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L118-L123'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
   
 
   
@@ -1074,7 +1087,6 @@
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="#application">Application</a></code>:
         
-
       
     
   
@@ -1107,6 +1119,15 @@
       <div class="clearfix display-none toggle-target">
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L132-L141'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
   
 
   <p>Wraps the context with a promise</p>
@@ -1152,7 +1173,6 @@
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="#application">Application</a></code>:
         
-
       
     
   
@@ -1185,6 +1205,15 @@
       <div class="clearfix display-none toggle-target">
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L152-L156'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
   
 
   <p>Returns a promise of the context requested.</p>
@@ -1224,7 +1253,6 @@
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;any></code>:
         
-
       
     
   
@@ -1257,6 +1285,15 @@
       <div class="clearfix display-none toggle-target">
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L163-L167'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
   
 
   <p>Deletes context associated with id. Rejects corresponding promise.</p>
@@ -1320,6 +1357,15 @@
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L172-L175'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
+  
 
   <p>Reset context for this application</p>
 
@@ -1368,6 +1414,15 @@
       <div class="clearfix display-none toggle-target">
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L190-L198'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
   
 
   <p>Subscribes to the observable provided so that every next/error is dispatched via the middleware using specified topic and channel.</p>
@@ -1435,7 +1490,6 @@
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="#application">Application</a></code>:
         
-
       
     
   
@@ -1468,6 +1522,15 @@
       <div class="clearfix display-none toggle-target">
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L205-L212'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
   
 
   <p>Unsubscribes from the observable</p>
@@ -1531,6 +1594,15 @@
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L224-L227'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
+  
 
   
     <div class='pre p1 fill-light mt0'>registerController(controllerFactory: any): <a href="#application">Application</a></div>
@@ -1566,7 +1638,6 @@
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="#application">Application</a></code>:
         
-
       
     
   
@@ -1599,6 +1670,15 @@
       <div class="clearfix display-none toggle-target">
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L234-L236'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
   
 
   
@@ -1635,7 +1715,6 @@
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="#controller">Controller</a></code>:
         
-
       
     
   
@@ -1668,6 +1747,15 @@
       <div class="clearfix display-none toggle-target">
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L243-L247'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
   
 
   
@@ -1704,7 +1792,6 @@
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="#application">Application</a></code>:
         
-
       
     
   
@@ -1737,6 +1824,15 @@
       <div class="clearfix display-none toggle-target">
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L254-L256'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
   
 
   
@@ -1773,7 +1869,6 @@
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="#waltzwidget">WaltzWidget</a></code>:
         
-
       
     
   
@@ -1807,6 +1902,15 @@
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L273-L276'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
+  
 
   <p>This application starting point</p>
 
@@ -1830,7 +1934,6 @@
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="#application">Application</a></code>:
         
-
       
     
   
@@ -1874,6 +1977,10 @@
       WaltzMessage
     </h3>
     
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L282-L294'>
+      <span>src/core.js</span>
+      </a>
     
   </div>
   
@@ -2002,6 +2109,10 @@
     </h3>
     
     
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L300-L352'>
+      <span>src/core.js</span>
+      </a>
+    
   </div>
   
 
@@ -2045,6 +2156,15 @@
       <div class="clearfix display-none toggle-target">
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L312-L316'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
   
 
   <p>Does nothing if controller has been already registered previously i.e. <a href="WaltzMiddleware#controllers">WaltzMiddleware#controllers</a>.has(controller.name) === true</p>
@@ -2107,6 +2227,15 @@
       <div class="clearfix display-none toggle-target">
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L329-L331'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
   
 
   
@@ -2185,6 +2314,15 @@
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
   
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L339-L341'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
+  
 
   
     <div class='pre p1 fill-light mt0'>dispatchError(topic: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, channel: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, err: any)</div>
@@ -2261,6 +2399,15 @@
       <div class="clearfix display-none toggle-target">
         <section class='p2 mb2 clearfix bg-white minishadow'>
 
+  
+  <div class='clearfix'>
+    
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/core.js#L349-L351'>
+      <span>src/core.js</span>
+      </a>
+    
+  </div>
   
 
   
@@ -2349,6 +2496,10 @@
       Deferred
     </h3>
     
+    
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/waltz-controls/middleware/blob/6d9a33010166aacb681aa6ef07461227252e5313/src/deferred.js#L6-L16'>
+      <span>src/deferred.js</span>
+      </a>
     
   </div>
   
