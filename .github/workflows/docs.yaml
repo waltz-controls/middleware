@@ -6,14 +6,25 @@ on:
       - master
 
 jobs:
-  deploy:
+  docs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3.3.0
 
-      - name: Build
-        uses: andstor/jsdoc-action@v1
+      - uses: actions/setup-node@v3
         with:
-          source_dir: ./src
-          output_dir: ./docs
+          node-version: 16
+          
+      - name: documentation.js
+        run: |
+          npm install -g documentation
+          documentation build src/** -f html --github -o docs
+     
+      - name: push back
+        run:
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add docs/**
+          git commit -m "[actions] update docs"
+          git push
