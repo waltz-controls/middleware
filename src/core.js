@@ -8,6 +8,8 @@ export const kInprocChannel = 'channel:inproc';
 export const kMulticastChannel = 'channel:multicast';
 
 /**
+ * This class is responsbile mainly for dispatching events from Views/Models into an eventbus
+ *
  * @class [Controller]
  */
 export class Controller {
