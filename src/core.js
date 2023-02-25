@@ -11,7 +11,7 @@ export const kMulticastChannel = 'channel:multicast';
  * This class is responsbile mainly for dispatching events from Views/Models into an eventbus.
  * THis is the very heart of the Wlatz middleware as it glues various Rx cahnnels within the application as well as with outer sources
  *
- * I love SCALE20x
+ * 
  *
  * @class [Controller]
  */
